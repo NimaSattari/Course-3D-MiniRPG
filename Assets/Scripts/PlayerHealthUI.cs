@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,17 +5,16 @@ using UnityEngine.UI;
 
 public class PlayerHealthUI : MonoBehaviour
 {
+    [SerializeField] PlayerHealth playerHealth;
     [SerializeField] Slider healthSlider;
-    PlayerHealth playerHealth;
 
-    private void Start()
+    void Awake()
     {
-        playerHealth = GetComponent<PlayerHealth>();
-        playerHealth.OnHealthChange += HealthChanged;
+        playerHealth.OnHealthChange += OnHealthChange;
     }
 
-    private void HealthChanged()
+    private void OnHealthChange()
     {
-        healthSlider.value = (float)playerHealth.CurrentHealth / (float)playerHealth.MaxHealth;
+        healthSlider.value = playerHealth.CurrentHealth / playerHealth.MaxHealth;
     }
 }

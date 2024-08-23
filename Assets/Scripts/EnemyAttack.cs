@@ -1,31 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] Collider attackCollider;
-    Animator animator;
-    PlayerController controller;
-    EnemyHealth enemyHealth;
-
-    bool isNearPlayer;
-    bool isDead;
-
-    private void Start()
+    [SerializeField] Animator animator;
+    [SerializeField] Collider collider;
+    [SerializeField] Transform player;
+    private bool isNearPlayer = false;
+    private bool isDead = false;
+    private void Awake()
     {
-        controller = FindObjectOfType<PlayerController>();
-        animator = GetComponent<Animator>();
-        StartCoroutine(AttackCor());
-        enemyHealth = GetComponent<EnemyHealth>();
-        enemyHealth.DieEvent += Die;
+        GetComponent<EnemyHealth>().OnDie += Die;
+    }
+
+    void Start()
+    {
+        StartCoroutine(Attack());
     }
 
     private void Update()
     {
-        if(isDead) return;
-        if(Vector3.Distance(transform.position,controller.transform.position) <= 1.5f)
+        if (Vector3.Distance(transform.position, player.position) <= 1.5f)
         {
             isNearPlayer = true;
         }
@@ -35,30 +31,38 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    IEnumerator AttackCor()
+    private IEnumerator Attack()
     {
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
         if (isDead) yield break;
-        if(isNearPlayer)
+        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        if (isNearPlayer)
         {
-            animator.Play("Attack1");
+            int whichAttack = Random.Range(0, 2);
+            if(whichAttack == 0)
+            {
+                animator.Play("Attack1");
+            }
+            else
+            {
+                animator.Play("Attack2");
+            }
         }
-        StartCoroutine(AttackCor());
+        StartCoroutine(Attack());
+    }
+
+    public void Begin()
+    {
+        collider.enabled = true;
+    }
+
+    public void End()
+    {
+        collider.enabled = false;
     }
 
     private void Die()
     {
         isDead = true;
-        StopCoroutine(AttackCor());
-    }
-
-    public void Begin()
-    {
-        attackCollider.enabled = true;
-    }
-
-    public void End()
-    {
-        attackCollider.enabled = false;
+        StopCoroutine(Attack());
     }
 }

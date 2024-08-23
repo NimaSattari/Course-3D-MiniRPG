@@ -3,24 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour, IDamagable
+public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] int maxHealth;
-    [SerializeField] float timeBetweenAttack;
-
-    Animator animator;
-
-    public event Action DieEvent, OnHealthChange;
-    private int currentHealth;
+    [SerializeField] float maxHealth;
+    [SerializeField] Animator animator;
+    [SerializeField] float damage;
+    [SerializeField] float timeBetweenAttacks = 1f;
+    public float currentHealth;
+    public event Action OnHealthChange;
+    public event Action OnDie;
     private float timer;
 
-    public int CurrentHealth
+    public float CurrentHealth
     {
         get { return currentHealth; }
-        set { currentHealth = value; }
+        private set { currentHealth = value; }
     }
 
-    public int MaxHealth
+    public float MaxHealth
     {
         get { return maxHealth; }
         private set { maxHealth = value; }
@@ -28,8 +28,8 @@ public class EnemyHealth : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
-        CurrentHealth = maxHealth;
+        currentHealth = MaxHealth;
+        OnHealthChange?.Invoke();
     }
 
     private void Update()
@@ -41,28 +41,38 @@ public class EnemyHealth : MonoBehaviour, IDamagable
     {
         if (other.CompareTag("PlayerWeapon"))
         {
-            TakeDamage();
+            TakeDamage(damage);
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(float damage)
     {
-        if (timer > timeBetweenAttack)
+        if (timer > timeBetweenAttacks)
         {
-            CurrentHealth -= 25;
-            OnHealthChange?.Invoke();
-            if (CurrentHealth <= 0)
+            timer = 0f;
+            if (currentHealth > 0)
+            {
+                currentHealth -= damage;
+                if (currentHealth <= 0)
+                {
+                    Die();
+                }
+                else
+                {
+                    animator.Play("Hit");
+                }
+            }
+            if (currentHealth <= 0)
             {
                 Die();
             }
-            timer = 0;
-            print(CurrentHealth);
+            OnHealthChange?.Invoke();
         }
     }
 
     public void Die()
     {
-        DieEvent?.Invoke();
         animator.Play("Die");
+        OnDie?.Invoke();
     }
 }

@@ -5,72 +5,49 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] CharacterController characterController;
+    [SerializeField] float rotateSpeed = 10;
+    [SerializeField] float moveSpeed = 10;
+    [SerializeField] Animator animator;
     [SerializeField] Collider swordCollider;
-    CharacterController characterController;
-    Animator animator;
-    PlayerHealth playerHealth;
+    [SerializeField] float timeBetweenAttacks = 1f;
 
-    bool isDead;
-    Vector3 currentLookTarget = Vector3.zero;
-
-    void Start()
+    private float timer;
+    private bool isDead;
+    private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-        playerHealth = GetComponent<PlayerHealth>();
-        playerHealth.DieEvent += Die;
+        GetComponent<PlayerHealth>().OnDie += Die;
     }
 
     void Update()
     {
         if (isDead) return;
-        Vector3 moveVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        characterController.SimpleMove(moveVector * 10);
-        //transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
-        //Vector3 forward = transform.TransformDirection(Vector3.forward);
-        //float curSpeed = speed * Input.GetAxis("Vertical");
-        //controller.SimpleMove(forward * curSpeed);
-        if (moveVector.sqrMagnitude > 0.1f)
+        timer += Time.deltaTime;
+        transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        float curSpeed = moveSpeed * Input.GetAxis("Vertical");
+        if( curSpeed >= 1f)
         {
             animator.SetBool("Walk", true);
         }
-        else if(moveVector.sqrMagnitude <= 0.1f)
+        else
         {
             animator.SetBool("Walk", false);
         }
-        if(Input.GetMouseButtonDown(0))
+        characterController.SimpleMove(forward * curSpeed);
+        if(timer > timeBetweenAttacks)
         {
-            animator.Play("Attack1");
-        }
-        if(Input.GetMouseButtonDown(1))
-        {
-            animator.Play("Attack2");
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if(isDead) return;
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 500, layerMask, QueryTriggerInteraction.Ignore))
-        {
-            if (hit.point != currentLookTarget)
+            if (Input.GetMouseButtonDown(0))
             {
-                currentLookTarget = hit.point;
+                animator.SetTrigger("Attack1");
+                timer = 0f;
             }
-            Vector3 targetPosiion = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            Quaternion rotation = Quaternion.LookRotation(targetPosiion - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 2.5f);
-
+            if (Input.GetMouseButtonDown(1))
+            {
+                animator.SetTrigger("Attack2");
+                timer = 0f;
+            }
         }
-    }
-
-    private void Die()
-    {
-        isDead = true;
-        animator.Play("Die");
     }
 
     public void Begin()
@@ -81,5 +58,11 @@ public class PlayerController : MonoBehaviour
     public void End()
     {
         swordCollider.enabled = false;
+    }
+
+
+    private void Die()
+    {
+        isDead = true;
     }
 }

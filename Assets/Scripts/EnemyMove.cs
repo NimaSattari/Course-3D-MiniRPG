@@ -6,33 +6,25 @@ using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
-    NavMeshAgent agent;
-    PlayerController controller;
-    Animator animator;
-    EnemyHealth enemyHealth;
-    bool isDead;
-
-    private void Start()
+    [SerializeField] NavMeshAgent agent;
+    [SerializeField] Transform player;
+    [SerializeField] float maxDistance, minDistance;
+    private bool isDead = false;
+    private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        controller = FindObjectOfType<PlayerController>();
-        enemyHealth = GetComponent<EnemyHealth>();
-        enemyHealth.DieEvent += Die;
+        GetComponent<EnemyHealth>().OnDie += Die;
     }
 
     private void Update()
     {
         if(isDead) return;
-        if(Vector3.Distance(transform.position, controller.transform.position) >= 1f)
+        if(Vector3.Distance(transform.position, player.position) <= maxDistance && Vector3.Distance(transform.position,player.position) >= minDistance)
         {
             agent.enabled = true;
-            animator.SetBool("Walk", true);
-            agent.SetDestination(controller.transform.position);
+            agent.SetDestination(player.position);
         }
         else
         {
-            animator.SetBool("Walk", false);
             agent.enabled = false;
         }
     }
