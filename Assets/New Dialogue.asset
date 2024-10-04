@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5063484082805692629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: 49b89be7-d8f5-415e-bf7a-b1550dbd897c
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Hello
+  children:
+  - a1ff851f-cb66-4065-b711-8e876bade9e2
+  rect:
+    serializedVersion: 2
+    x: 15.20002
+    y: 84.79999
+    width: 250
+    height: 100
+  onEnterAction: 
+  onExitAction: walk
+  condition:
+    and:
+    - or:
+      - predicate: Sword
+        parameters:
+        - 1
+        - 2
+        negate: 0
+      - predicate: Shield
+        parameters: []
+        negate: 1
+    - or: []
+--- !u!114 &-4145239841436615765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: 1c8d8bdf-a9ab-4506-8296-454b786f66b4
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: Yes
+  children:
+  - 8c333fb6-7209-4b61-97e5-5e625c5dccda
+  rect:
+    serializedVersion: 2
+    x: 925.60004
+    y: 45.200012
+    width: 250
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fd75088901f7234884226de80ba02dc, type: 3}
+  m_Name: New Dialogue
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -5063484082805692629}
+  - {fileID: 1454726303377503366}
+  - {fileID: 4213488254167073386}
+  - {fileID: -4145239841436615765}
+  - {fileID: 6931501223655889500}
+  - {fileID: 5006812407616298646}
+  - {fileID: 6851267972978111886}
+  newNodeOffset: {x: 250, y: 0}
+--- !u!114 &1454726303377503366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: a1ff851f-cb66-4065-b711-8e876bade9e2
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: Hi
+  children:
+  - 21d65cff-94a8-4aa1-b58c-2b30161e5f7e
+  rect:
+    serializedVersion: 2
+    x: 264.80002
+    y: 282.40002
+    width: 250
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and:
+    - or:
+      - predicate: sword
+        parameters:
+        - 
+        - 
+        negate: 0
+      - predicate: shield
+        parameters:
+        - 
+        negate: 0
+--- !u!114 &4213488254167073386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: 21d65cff-94a8-4aa1-b58c-2b30161e5f7e
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Get Attacked?
+  children:
+  - 1c8d8bdf-a9ab-4506-8296-454b786f66b4
+  - 439fb444-8f36-49d6-8d70-16bc1f0c2574
+  rect:
+    serializedVersion: 2
+    x: 612.80005
+    y: 118.80002
+    width: 250
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &5006812407616298646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: 8c333fb6-7209-4b61-97e5-5e625c5dccda
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Okay
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1193.6001
+    y: 52.80002
+    width: 250
+    height: 100
+  onEnterAction: Enemy
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &6851267972978111886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: c9edb622-bd7d-421d-b779-cc9d5d51bbcd
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: Bye
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1196.4
+    y: 193.6
+    width: 250
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &6931501223655889500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28de18b65708c704e93e67374c7683b0, type: 3}
+  m_Name: 439fb444-8f36-49d6-8d70-16bc1f0c2574
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: No
+  children:
+  - c9edb622-bd7d-421d-b779-cc9d5d51bbcd
+  rect:
+    serializedVersion: 2
+    x: 923.2001
+    y: 187.6
+    width: 250
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []

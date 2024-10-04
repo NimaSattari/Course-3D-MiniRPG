@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
+    [SerializeField] Animator animator;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform player;
     [SerializeField] float maxDistance, minDistance;
@@ -21,11 +22,13 @@ public class EnemyMove : MonoBehaviour
         if(Vector3.Distance(transform.position, player.position) <= maxDistance && Vector3.Distance(transform.position,player.position) >= minDistance)
         {
             agent.enabled = true;
+            animator.SetBool("Walk", true);
             agent.SetDestination(player.position);
         }
         else
         {
             agent.enabled = false;
+            animator.SetBool("Walk", false);
         }
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class PlayerController : MonoBehaviour
 
     private float timer;
     private bool isDead;
+
+    [SerializeField] private Vector3 playerVelocity;
+    [SerializeField] private bool groundedPlayer;
+    [SerializeField] private float jumpHeight = 1.0f;
+    [SerializeField] private float gravityValue = -9.81f;
+
     private void Awake()
     {
         GetComponent<PlayerHealth>().OnDie += Die;
@@ -37,6 +44,7 @@ public class PlayerController : MonoBehaviour
         characterController.SimpleMove(forward * curSpeed);
         if(timer > timeBetweenAttacks)
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             if (Input.GetMouseButtonDown(0))
             {
                 animator.SetTrigger("Attack1");
@@ -47,6 +55,26 @@ public class PlayerController : MonoBehaviour
                 animator.SetTrigger("Attack2");
                 timer = 0f;
             }
+        }
+
+        groundedPlayer = characterController.isGrounded;
+        if (groundedPlayer && playerVelocity.y < 0.0f)
+        {
+            playerVelocity.y = -1.0f;
+        }
+        else
+        {
+            playerVelocity.y += gravityValue * Time.deltaTime * 5;
+        }
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        {
+            playerVelocity.y += jumpHeight;
+        }
+
+        characterController.Move(playerVelocity * Time.deltaTime);
+        if (Input.GetButtonDown("Esc"))
+        {
+            Loader.Instance.LoadMenu();
         }
     }
 
